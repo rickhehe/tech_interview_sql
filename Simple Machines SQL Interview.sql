@@ -2,84 +2,84 @@
 -- https://gist.github.com/lukeknxt/4b6f32445bf50f900cfbfb2cac1accc5
 -- Thanks to @lukeknxt
 
--- Make sure you talk to yourself when coding.
+-- Make sure you talk to yourself WHEN coding.
 -- Explain the your approach to solve the problem.
 
 -- Q1
-select order_id
-  from order
- where user_id = 123
+SELECT order_id
+  FROM order
+ WHERE user_id = 123;
 
 -- Q2
-select order_id
-  from order
- where datepart(year, date) = 2022 and datepart(month, date) = 5
+SELECT order_id
+  FROM order
+ WHERE datepart(year, date) = 2022 and datepart(mONth, date) = 5;
 
 -- Q3
-select user_id
-       , count(*) count
-       , rank() over(order by count(*) desc) rank
-  from order
- group by user_id
+SELECT user_id
+       , COUNT(*) COUNT
+       , RANK() OVER(ORDER BY COUNT(*) DESC) rank
+  FROM order
+ GROUP BY user_id;
 
 -- Q4
-with x as (count, amount)
-select count(*) count
+WITH x AS (COUNT, amount)
+SELECT COUNT(*) COUNT
        , p.price * o.quantity amount
- from order o
-      join order_item t
-           on o.order_id = t.order_id
-      join product p
-           on t.product_id = product.product_id     
-group by o.user_id
+ FROM order o
+      JOIN order_item t
+           ON o.order_id = t.order_id
+      JOIN product p
+           ON t.product_id = product.product_id     
+GROUP BY o.user_id
 )
 
-select count
-  from x
- where amount > 1000
+SELECT COUNT
+  FROM x
+ WHERE amount > 1000;
 
 -- Q5
-select top 5
+SELECT top 5
        name
-  from order_item t
-       join product p
-            on t.product_id = p.product_id
- order by count(*) desc
+  FROM order_item t
+       JOIN product p
+            ON t.product_id = p.product_id
+ ORDER BY COUNT(*) DESC;
 
 -- Q6
-with x as (
-select count(*)
- from user u
-      join order o
-           on u.user_id = o.user_id
-      join order_item t
-           on o.order_id = t.order_id
- group by u.user_id
+WITH x AS (
+SELECT COUNT(*)
+ FROM user u
+      JOIN order o
+           ON u.user_id = o.user_id
+      JOIN order_item t
+           ON o.order_id = t.order_id
+ GROUP BY u.user_id
 )
 
-select top 5
-       count
-  from x
- order by count
+SELECT top 5
+       COUNT
+  FROM x
+ ORDER BY COUNT
 
-union all
+UNION ALL
 
-select top 5
-       count
-  from x
- order by count desc
+SELECT top 5
+       COUNT
+  FROM x
+ ORDER BY COUNT DESC;
 
 -- Q7
 
-select case when age < 30 then 'YOUNG'
-            when age < 65 then 'MIDDLE_AGED'
-            else 'ELDERLY'
-        end age_group
-       , count(*) count
-  from user u
-       join order o
-            on u.user_id = o.user_id
- group by case when age < 30 then 'YOUNG'
-               when age < 65 then 'MIDDLE_AGED'
-               else 'ELDERLY'
-           end
+SELECT CASE WHEN age < 30 THEN 'YOUNG'
+            WHEN age < 65 THEN 'MIDDLE_AGED'
+            ELSE 'ELDERLY'
+        END age_group
+       , COUNT(*) COUNT
+  FROM user u
+       JOIN order o
+            ON u.user_id = o.user_id
+ GROUP BY CASE WHEN age < 30 THEN 'YOUNG'
+               WHEN age < 65 THEN 'MIDDLE_AGED'
+               ELSE 'ELDERLY'
+           END;
