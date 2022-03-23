@@ -13,18 +13,18 @@ SELECT order_id
 -- Q2
 SELECT order_id
   FROM order
- WHERE datepart(year, date) = 2022 and datepart(mONth, date) = 5;
+ WHERE DATEPART(year, date) = 2022 and DATEPART(month, date) = 5;
 
 -- Q3
 SELECT user_id
-       , COUNT(*) COUNT
+       , COUNT(*) count
        , RANK() OVER(ORDER BY COUNT(*) DESC) rank
   FROM order
  GROUP BY user_id;
 
 -- Q4
 WITH x AS (COUNT, amount)
-SELECT COUNT(*) COUNT
+SELECT COUNT(*) count
        , p.price * o.quantity amount
  FROM order o
       JOIN order_item t
@@ -57,6 +57,7 @@ SELECT COUNT(*)
  GROUP BY u.user_id
 )
 
+-- Use GREATEST and LEAST or LIMIT for PSQL.
 SELECT top 5
        COUNT
   FROM x
@@ -64,7 +65,7 @@ SELECT top 5
 
 UNION ALL
 
-SELECT top 5
+SELECT TOP 5
        COUNT
   FROM x
  ORDER BY COUNT DESC;
